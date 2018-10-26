@@ -1,5 +1,7 @@
 import { FETCHING_DATA, FETCHING_DATA_FAILURE, FETCHING_DATA_SUCCESS } from '../constant'
-import getDataApi from '../api'
+//import getDataApi from '../api'
+
+const URL = 'https://api.tvmaze.com/schedule?country=US&date=2018-10-27'
 
 export const selected_tab = (tabId) => {
     return {
@@ -27,11 +29,10 @@ export const getDataFailure = () => {
 export const fetchData = () => {
     // return function
     return (dispatch) => {
-        dispatch(getData());
-        getDataApi()
-            .then(([res, json]) => {
-                dispatch(getDataSuccess(json))
-            })
+        getData();
+        fetch(URL)
+            .then(res => res.json())
+            .then(json => dispatch(getDataSuccess(json)))
             .catch(err => console.warn(err));
     }
 }
